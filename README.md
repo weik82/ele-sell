@@ -1,6 +1,6 @@
 # ele-sell
 
-> A Vue.js project
+> 抄代码技术------vuejs高仿ele
 
 ## Build Setup
 
