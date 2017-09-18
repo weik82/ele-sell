@@ -38,8 +38,7 @@
         </li>
       </ul>
     </div>
-    <shopcart :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice"
-              :minPrice="seller.minPrice"></shopcart>
+    <shopcart ref="shopcart" :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
   </div>
 </template>
 <script>
@@ -117,7 +116,10 @@
         this.meunScroll.scrollToElement(el, 300);
       },
       addFood(target) {
-        console.log(target);
+        this._drop(target);
+      },
+      _drop(target) {
+        this.$refs.shopcart.drop(target)
       }
     },
     computed: {
