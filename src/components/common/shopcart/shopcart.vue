@@ -12,7 +12,7 @@
           <div class="price" :class="{'highlight':totalPrice}">￥{{totalPrice}}</div>
           <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
         </div>
-        <div class="content-right">
+        <div class="content-right" @click.stop.prevent="pay">
           <div class="pay" :class="payClass">{{payDesc}}</div>
         </div>
       </div>
@@ -146,6 +146,12 @@
         if (ball) {
           ball.show = false;
         }
+      },
+      pay() {
+        if (this.totalPrice < this.minPrice) {
+          return;
+        }
+        window.alert(`支付${this.totalPrice}元`);
       }
     },
     watch: {

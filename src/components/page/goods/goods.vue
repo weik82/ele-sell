@@ -15,7 +15,8 @@
         <li v-for="(item, index) in goods" class="food-list" :key="index" ref="foodList">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="(food,index) in item.foods" class="food-item border-1px" :key="index">
+            <li @click="showFood(food,$event)" v-for="(food,index) in item.foods" class="food-item border-1px"
+                :key="index">
               <div class="icon">
                 <img width="57" height="57" :src="food.icon">
               </div>
@@ -39,6 +40,7 @@
       </ul>
     </div>
     <shopcart ref="shopcart" :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
+    <food @add="addFood" :food="selectedFood" ref="food"></food>
   </div>
 </template>
 <script>
@@ -46,12 +48,14 @@
   import BScroll from 'better-scroll'
   import cartcontrol from '../../common/cartcontrol/cartcontrol.vue'
   import shopcart from '../../common/shopcart/shopcart.vue'
+  import food from '../../common/food/food.vue'
 
   export default {
     name: 'goods',
     components: {
       cartcontrol,
-      shopcart
+      shopcart,
+      food
     },
     props: {
       seller: {
@@ -63,13 +67,21 @@
         goods: [],
         classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee'],
         scrollY: 0,
-        foodsHeight: []
+        foodsHeight: [],
+        selectedFood: {}
       }
     },
     created() {
       this.getGoods();
     },
     methods: {
+      showFood(food, event) {
+        if (!event._constructed) {
+          return;
+        }
+        this.selectedFood = food;
+        this.$refs.food.show();
+      },
       getGoods() {
         getData('goods').then((result) => {
           result = result.data;
